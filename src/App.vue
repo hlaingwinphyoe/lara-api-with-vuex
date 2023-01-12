@@ -1,30 +1,24 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
+  <NavBar />
   <router-view/>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
+<script>
+import * as bootstrap from 'bootstrap'
+import NavBar from "@/components/NavBar";
+import axios from "axios";
+export default {
+  components: {NavBar},
+  created() {
+    if (localStorage.getItem('auth') && localStorage.getItem('token')){
+      this.$store.dispatch('setAuth',JSON.parse(localStorage.getItem('auth')));
+      this.$store.dispatch('setToken',localStorage.getItem('token'));
+      axios.defaults.headers.common['Authorization'] = "Bearer "+localStorage.getItem('token');
     }
   }
 }
+</script>
+
+<style lang="scss">
+@import "app.scss";
 </style>
